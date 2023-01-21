@@ -5,19 +5,20 @@ The input is a text file with adjacency matrix, each row of the file corresponds
 of the matrix.
 The output is a pair of text files with the information of the zero and one dimensional barcodes. The first
 column contains the birth time of each homology class and the second column the death time. Optionally, barcodes 
-can be plotted changing to True the values in the last to lines of this script.  
-Dionysus module is needed to compute persistent homology.'''
+can be plotted changing to True the values in the last tow lines of this script.  
+Dionysus module is needed to compute persistent homology. Version 2 was used for this script and was downloaded 
+via conda.'''
 import numpy as np
 import dionysus as d
 
-def density(A): #This function is used to compute the density of the matrices
+def density(A): # This function is used to compute the density of the matrices
     s=len(A)    # which is used as index of the filtration
     return np.count_nonzero(A)/(s*(s-1))
 
 def ph(filename):
     matrix=[]
     with open(filename) as f:
-        lines=f.readlines()[1:]
+        lines=f.readlines()[1:] # matrices used in the study, and added to this repository, have a label first column which is ommited
         for line in lines:
             row=line.split(' ')
             del row[0]
