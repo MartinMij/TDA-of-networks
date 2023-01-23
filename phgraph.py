@@ -7,7 +7,7 @@ In our study case, the data is given in plain text format and each two entries i
 matrices, there is a label column and a label row. This script is adapted to delete this column and row. 
 The output is a pair of text files with the information of the zero and one dimensional barcodes. The first
 column contains the birth time of each homology class and the second column the death time. Optionally, barcodes 
-can be plotted changing to True the values in the last tow lines of this script.  
+can be plotted uncommenting the las two lines of this script.  
 Dionysus module is needed to compute persistent homology. Version 2 was used for this script and was downloaded 
 via conda.'''
 import numpy as np
@@ -75,7 +75,7 @@ def ph(filename):
         for pt in diagrams[j]:
             file.write(f"{pt.birth} {pt.death}\n")
         file.close()
-    d.plot.plot_bars(diagrams[0], show=False)
-    d.plot.plot_bars(diagrams[1], show=False)
+    # d.plot.plot_bars(diagrams[0], show=True)
+    # d.plot.plot_bars(diagrams[1], show=True)
     
     
