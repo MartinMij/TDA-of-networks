@@ -27,14 +27,15 @@ n=len(group1)
 m=len(group2)
 ent=np.empty((0,2))
 
-for i in range(n+m):
-    ph(files[i])
+for i in range(n+m):   # This loop computes the persistent homology of all the networks
+    ph(files[i])       # and writes the resulting barcodes to text files.
 
-for i in range(n+m):
+for i in range(n+m):   # This loop computes the persistent entropy for all barcodes.
     pe=np.array([[pers_ent(files[i].replace('.txt', '_bc_0.txt')), 
                   pers_ent(files[i].replace('.txt', '_bc_1.txt'))]])
     ent=np.concatenate((ent, pe))
 plt.figure(figsize=(10, 12))
+## Plot in dimension zero
 plt.subplot(211)
 plt.plot(np.linspace(1, n, n), ent[0:n, 0], '.b', label="group1")
 plt.plot(np.linspace(1, n+0.5, n), np.ones((n))*np.mean(ent[0:n, 0]), color=(0, 0.4470, 0.7410))
@@ -54,7 +55,7 @@ plt.legend(loc='upper right')
 plt.title('0-Persistence etropy')
 plt.xlabel('Subject ID')
 plt.ylabel('0-persistence entropy')
-##
+## Plot in dimension one
 plt.subplot(212)
 plt.plot(np.linspace(1, n, n), ent[0:n, 1], '.b', label="group1")
 plt.plot(np.linspace(1, n+0.5, n), np.ones((n))*np.mean(ent[0:n, 1]), color=(0, 0.4470, 0.7410))
