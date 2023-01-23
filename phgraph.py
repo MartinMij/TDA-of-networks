@@ -13,8 +13,8 @@ via conda.'''
 import numpy as np
 import dionysus as d
 
-def density(A): # This function is used to compute the density of the matrices
-    s=len(A)    # which is used as index of the filtration
+def density(A):                 # This function is used to compute the density of the matrices
+    s=len(A)                    # which is used as index of the filtration
     return np.count_nonzero(A)/(s*(s-1))
 
 def ph(filename):
@@ -46,7 +46,7 @@ def ph(filename):
             B2=np.logical_and(A>=M, A<M2)
             B2[id]=0
         else:
-            B2=B #Edges added at time r
+            B2=B                # Edges added at time r
         [row, column]=np.nonzero(np.triu(B2))
         E=np.concatenate((E, np.concatenate((row[None].T, column[None].T, np.ones((len(row), 1))*index), axis=1)))
         for i in range(s-2):
@@ -56,7 +56,7 @@ def ph(filename):
                         if B[i][k] and B[j][k] and (B2[i][j] or B2[i][k] or B2[j][k]):
                             T.append([i, j, k, index])
     V=np.concatenate((np.linspace(0, s-1, s)[None], np.zeros((s))[None]))
-    V=V.T.tolist()             # V contains the vertex set, all vertices appear at time zero
+    V=V.T.tolist()              # V contains the vertex set, all vertices appear at time zero
     E=E.tolist()
     ### The nex part computes the persistent homology
     list = V + E + T
