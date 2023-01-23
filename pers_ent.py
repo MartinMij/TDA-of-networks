@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 This function computes the persistent entropy as described in the paper. 
-The input is a text file with the information of a barcode. 
+The input is a text file with the information of a barcode: each row
+corresponds to a bar and consists of two entries, the birth and death 
+time of the bar.
 The output is a float number corresponding to the persistent entropy.
 """
 import numpy as np
