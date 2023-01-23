@@ -2,7 +2,9 @@
 '''This script contains the function ph() which obtains a filtration and computes its persistent homology given a weighted graph
 as described in the paper Persistent entropy detects brain network topological structure.
 The input is a text file with adjacency matrix, each row of the file corresponds to each row
-of the matrix.
+of the matrix. 
+In our study case, the data is given in plain text format and each two entries in a row are delimited by a space. Besides, in these
+matrices, there is a label column and a label row. This script is adapted to delete this column and row. 
 The output is a pair of text files with the information of the zero and one dimensional barcodes. The first
 column contains the birth time of each homology class and the second column the death time. Optionally, barcodes 
 can be plotted changing to True the values in the last tow lines of this script.  
@@ -18,20 +20,20 @@ def density(A): # This function is used to compute the density of the matrices
 def ph(filename):
     matrix=[]
     with open(filename) as f:
-        lines=f.readlines()[1:] # matrices used in the study, and added to this repository, have a label first column which is ommited
+        lines=f.readlines()[1:] # This line ignores the label column
         for line in lines:
             row=line.split(' ')
-            del row[0]
+            del row[0]          # This line delete the label row
             row2=[float(num) for num in row] 
             matrix.append(row2)
     A=matrix
-    A=np.array(A)
+    A=np.array(A)               # At this point, A is the matrix read from the text file  
     s=len(A)
     maximum=max(map(max, A))
-    T=[]
-    E=np.empty((0,3), float)
-    n=1000 #This is the number of equally distributed steps of the filtration. 
-    weights =np.linspace(0, maximum, n+1)  
+    T=[]                        # This list will have the 2-simplices and their appearence time within the filtration
+    E=np.empty((0,3), float)    # In a similar way, E will collect the 1-simplices
+    n=1000                      # This is the number of equally distributed steps of the filtration. 
+    weights = np.linspace(0, maximum, n+1)  # Only non-negative weights are considered
     id=A==np.zeros((s, s))
     for r in range(n):
         r=r+1
@@ -54,9 +56,9 @@ def ph(filename):
                         if B[i][k] and B[j][k] and (B2[i][j] or B2[i][k] or B2[j][k]):
                             T.append([i, j, k, index])
     V=np.concatenate((np.linspace(0, s-1, s)[None], np.zeros((s))[None]))
-    V=V.T.tolist()
+    V=V.T.tolist()             # V contains the vertex set, all vertices appear at time zero
     E=E.tolist()
-    ###persistent homology
+    ### The nex part computes the persistent homology
     list = V + E + T
     simplices = []
     for row in list:
