@@ -19,9 +19,9 @@ group2 = []
 #          '13_g6s06.txt', '14_g6s08.txt', '15_g6s09.txt', '16_g6s13.txt', '17_g6s14.txt', '18_g7c01.txt',
 #          '19_g7c04.txt']
 #group2 = ['20_g7s01.txt', '21_g7s02.txt', '22_g7s03.txt', '23_g7s05.txt', '24_g7s06.txt', '25_g7s08.txt',
-#          '26_g7s09.txt', '27_g7s10.txt', '28_g7s11.txt', '29_g7s12.txt', '30_g7s13.txt', '32_g7s16.txt',
-#          '33_g7s17.txt', '34_g7s18.txt', '35_g7s19.txt', '36_g7s22.txt', '37_g7s23.txt', '38_g7s24.txt',
-#          '39_g7s25.txt', '40_g7s26.txt', '41_g7s28.txt', '42_g7s29.txt', '43_g7s30.txt']
+#          '26_g7s09.txt', '27_g7s10.txt', '28_g7s11.txt', '29_g7s12.txt', '30_g7s13.txt', '31_g7s14.txt',
+#          '32_g7s16.txt', '33_g7s17.txt', '34_g7s18.txt', '35_g7s19.txt', '36_g7s22.txt', '37_g7s23.txt', 
+#          '38_g7s24.txt', '39_g7s25.txt', '40_g7s26.txt', '41_g7s28.txt', '42_g7s29.txt', '43_g7s30.txt']
 files=group1+group2
 n=len(group1)
 m=len(group2)
@@ -51,12 +51,12 @@ isad_l=np.ones((m))*np.mean(ent[n:n+m+1, 0])-np.ones((m))*np.std(ent[n:n+m+1, 0]
 plt.plot(np.linspace(n+0.5, n+m, m), isad_u, '--', color=(0.8500, 0.3250, 0.0980) )
 plt.plot(np.linspace(n+0.5, n+m, m), isad_l, '--', color=(0.8500, 0.3250, 0.0980))
 plt.fill_between(np.linspace(n+0.5, n+m, m), isad_l, isad_u, color=(0.8500, 0.3250, 0.0980), alpha=0.2)
-plt.legend(loc='upper right')
-plt.title('0-Persistence etropy')
-plt.xlabel('Subject ID')
-plt.ylabel('0-persistence entropy')
+plt.xlabel('Controls                                                     ISAD         ')
+plt.xticks([])
+plt.ylabel('0-persistent entropy ')
 ## Plot in dimension one
-plt.subplot(212)
+plt.figure(figsize=(10, 12))
+plt.subplot(211)
 plt.plot(np.linspace(1, n, n), ent[0:n, 1], '.b', label="group1")
 plt.plot(np.linspace(1, n+0.5, n), np.ones((n))*np.mean(ent[0:n, 1]), color=(0, 0.4470, 0.7410))
 ctrl_l=np.ones((n))*np.mean(ent[0:n, 1])-np.ones((n))*np.std(ent[0:n, 1])
@@ -71,7 +71,6 @@ isad_l=np.ones((m))*np.mean(ent[n:n+m+1, 1])-np.ones((m))*np.std(ent[n:n+m+1, 1]
 plt.plot(np.linspace(n+0.5, n+m, m), isad_u, '--', color=(0.8500, 0.3250, 0.0980) )
 plt.plot(np.linspace(n+0.5, n+m, m), isad_l, '--', color=(0.8500, 0.3250, 0.0980))
 plt.fill_between(np.linspace(n+0.5, n+m, m), isad_l, isad_u, color=(0.8500, 0.3250, 0.0980), alpha=0.2)
-plt.legend(loc='upper right')
-plt.title('1-Persistence etropy')
-plt.xlabel('Subject ID')
-plt.ylabel('1-persistence entropy')
+plt.xlabel('Controls                                                     ISAD         ')
+plt.xticks([])
+plt.ylabel('1-persistent entropy')
