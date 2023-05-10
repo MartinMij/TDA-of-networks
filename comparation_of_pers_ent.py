@@ -26,14 +26,17 @@ files=group1+group2
 n=len(group1)
 m=len(group2)
 ent=np.empty((0,2))
+holes=np.zeros((n+m))
 
-for i in range(n+m):   # This loop computes the persistent homology of all the networks
-    ph(files[i])       # and writes the resulting barcodes to text files.
+for i in range(n+m):               # This loop computes the persistent homology of all the networks in the folder /matrices/
+    ph('matrices/'+files[i])       # and writes the resulting barcodes to text files.
 
 for i in range(n+m):   # This loop computes the persistent entropy for all barcodes.
-    pe=np.array([[pers_ent(files[i].replace('.txt', '_bc_0.txt')), 
-                  pers_ent(files[i].replace('.txt', '_bc_1.txt'))]])
+    pe=np.array([[pers_ent('matrices/'+files[i].replace('.txt', '_bc_0.txt')), 
+                  pers_ent('matrices/'+files[i].replace('.txt', '_bc_1.txt'))]])
     ent=np.concatenate((ent, pe))
+    Bc1=np.loadtxt('matrices/'+files[i].replace('.txt', '_bc_1.txt'))
+    holes[i]=np.shape(Bc1)[0]
 plt.figure(figsize=(10, 12))
 ## Plot in dimension zero
 plt.subplot(211)
@@ -74,3 +77,24 @@ plt.fill_between(np.linspace(n+0.5, n+m, m), isad_l, isad_u, color=(0.8500, 0.32
 plt.xlabel('Controls                                                     ISAD         ')
 plt.xticks([])
 plt.ylabel('1-persistent entropy')
+
+## Plot of the number of one-dimensional holes
+plt.figure(figsize=(10, 12))
+plt.subplot(211)
+plt.plot(np.linspace(1, n, n), holes[0:n], '.b', label="group1")
+plt.plot(np.linspace(1, n+0.5, n), np.ones((n))*np.mean(holes[0:n]), color=(0, 0.4470, 0.7410))
+ctrl_l=np.ones((n))*np.mean(holes[0:n])-np.ones((n))*np.std(holes[0:n])
+ctrl_u=np.ones((n))*np.mean(holes[0:n])+np.ones((n))*np.std(holes[0:n])
+plt.plot(np.linspace(1, n+0.5, n), ctrl_u, '--', color=(0, 0.4470, 0.7410))
+plt.plot(np.linspace(1, n+0.5, n), ctrl_l, '--', color=(0, 0.4470, 0.7410))
+plt.fill_between(np.linspace(1, n+0.5, n),ctrl_l,ctrl_u, color=(0, 0.4470, 0.7410), alpha=0.2)
+plt.plot(np.linspace(n+1, n+m, m), holes[n:n+m+1], '.r', label="group2")
+plt.plot(np.linspace(n+0.5, n+m, m), np.ones((m))*np.mean(holes[n:n+m+1]), color=(0.8500, 0.3250, 0.0980)) 
+isad_u=np.ones((m))*np.mean(holes[n:n+m+1])+np.ones((m))*np.std(holes[n:n+m+1])
+isad_l=np.ones((m))*np.mean(holes[n:n+m+1])-np.ones((m))*np.std(holes[n:n+m+1])
+plt.plot(np.linspace(n+0.5, n+m, m), isad_u, '--', color=(0.8500, 0.3250, 0.0980) )
+plt.plot(np.linspace(n+0.5, n+m, m), isad_l, '--', color=(0.8500, 0.3250, 0.0980))
+plt.fill_between(np.linspace(n+0.5, n+m, m), isad_l, isad_u, color=(0.8500, 0.3250, 0.0980), alpha=0.2)
+plt.xlabel('Controls                                                     ISAD         ')
+plt.xticks([])
+plt.ylabel('Number of 1-dimensional holes')
